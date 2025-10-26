@@ -303,7 +303,7 @@ def main():
 
     print(f"\nSe cargaron {len(corpus_crudo)} documentos.")
     if len(corpus_crudo) == 0:
-        print("¡Error fatal! No se cargaron documentos. Revisa tu RUTA_BASE.")
+        print("Error fatal! No se cargaron documentos. Revisa tu RUTA_BASE.")
         return
 
     # --- PASO B: Preprocesar el Corpus ---
@@ -337,18 +337,32 @@ def main():
     print("¡Modelo TF-IDF listo!")
     
     
-    # --- PASO D: Probar con Queries ---
-    # también están creadas en el archivo 'consultas'
+# --- PASO D: Probar con Queries (leyendo desde archivo) ---
     print("\n--- INICIO DE PRUEBAS DE CLASIFICACIÓN ---")
     
-    # Aquí pones tus 4 textos de prueba
-    queries_prueba = [
-        "El telescopio James Webb estudia exoplanetas.", # Query 1 (Ciencia)
-        "Lionel Messi es un atleta de fútbol.", # Query 2 (Deportes)
-        "La pintura de Van Gogh y la música clásica son cultura.", # Query 3 (Cultura)
-        "El nuevo iPhone de Apple tiene procesadores AMD." # Query 4 (Tecnología)
-    ]
-    
+    # Ruta al archivo de consultas
+    ruta_queries_prueba = "/Users/davidjaque/Dev/Programación científica/Laboratorio 1/Consultas"
+    queries_prueba = [] # Lista vacía para guardar las queries
+
+    try:
+        print(f"Cargando queries desde: {ruta_queries_prueba}")
+        with open(ruta_queries_prueba, 'r', encoding='utf-8') as f:
+            lineas = f.readlines() # Lee todas las líneas en una lista
+        
+        for linea in lineas:
+            linea_limpia = linea.strip() # Limpia espacios y saltos de línea
+            if linea_limpia: # Asegura que no sea una línea vacía
+                queries_prueba.append(linea_limpia)
+        
+        print(f"Se cargaron {len(queries_prueba)} queries.")
+
+    except FileNotFoundError:
+        print(f"    ¡ERROR! No se encontró el archivo de queries: {ruta_queries_prueba}")
+        return # No podemos continuar si no hay queries
+    except Exception as e:
+        print(f"    ¡ERROR! No se pudo leer {ruta_queries_prueba}: {e}")
+        return
+
     for i, query in enumerate(queries_prueba):
         
         # Llamamos a nuestra función principal de clasificación
