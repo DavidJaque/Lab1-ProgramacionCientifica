@@ -1,0 +1,151 @@
+
+# Laboratorio 1 Programación Científica - Clasificador de Textos
+
+**Curso:** Programación Científica
+**Profesor:** Cristhian Rabi
+
+## Descripción del Proyecto
+
+Este proyecto es un clasificador de textos desarrollado en Python, creado como parte del Laboratorio 1 de Programación Científica. El programa implementa los algoritmos **TF-IDF** (Term Frequency-Inverse Document Frequency) y **Similitud del Coseno** desde cero (sin usar librerías como `scikit-learn`) para determinar la categoría de un texto de consulta.
+
+El sistema se entrena a partir de una "base de conocimiento" de textos pre-clasificados y utiliza un modelo **K-Vecinos Más Cercanos (KNN)** para asignar la categoría más probable a un nuevo texto mediante votación mayoritaria.
+
+-----
+
+## Características Principales
+
+  * **Implementación Manual de TF-IDF:** Cálculo de Frecuencia de Término (TF) e Frecuencia Inversa de Documento (IDF) sin librerías externas.
+  * **Similitud del Coseno:** Cálculo de la similitud entre el vector de la consulta y todos los documentos de la base.
+  * **Preprocesamiento de Texto:** Incluye normalización (minúsculas, eliminación de tildes y puntuación) y tokenización con eliminación de *stopwords*.
+  * **Clasificación KNN:** Asigna categorías basada en una votación mayoritaria de los `K` vecinos más similares.
+  * **Estructura Modular:** El código está organizado en funciones para cada etapa del proceso (preprocesamiento, TF, IDF, similitud, etc.).
+
+-----
+
+## Prerrequisitos
+
+Para ejecutar este script, solo necesitas **Python 3.x** y la biblioteca `nltk`.
+
+1.  **Instalar NLTK:**
+    ```bash
+    pip install nltk
+    ```
+2.  **Descargar Stopwords:** La primera vez que ejecutes el script, este intentará descargar automáticamente la lista de `stopwords` en español de NLTK. Si esto falla, puedes hacerlo manualmente abriendo una terminal de Python y ejecutando:
+    ```python
+    import nltk
+    nltk.download('stopwords')
+    ```
+
+-----
+
+## Estructura de Archivos
+
+Para que el programa funcione, tu proyecto **debe** seguir esta estructura de carpetas y archivos:
+
+```
+/Laboratorio 1/
+│
+├── Laboratorio 1.py       (Tu script principal)
+│
+├── Consultas              (Archivo de texto con las queries)
+│
+└── Base de conocimiento/    (Carpeta con los textos)
+    │
+    ├── Ciencia/
+    │   ├── Texto 1
+    │   ├── Texto 2
+    │   ├── ...
+    │   └── Texto 6
+    │
+    ├── Cultura/
+    │   ├── Texto 1
+    │   ├── ...
+    │   └── Texto 6
+    │
+    ├── Deportes/
+    │   ├── Texto 1
+    │   ├── ...
+    │   └── Texto 6
+    │
+    └── Tecnología/
+        ├── Texto 1
+        ├── ...
+        └── Texto 6
+```
+
+-----
+
+## Configuración
+
+Antes de ejecutar el script, debes configurar 3 variables clave en la sección `--- 0. CONFIGURACIÓN ---` de `Laboratorio 1.py`:
+
+1.  `ruta_base`: Debe contener la **ruta absoluta** a tu carpeta `Base de conocimiento/`.
+
+    ```python
+    ruta_base = "/Users/davidjaque/Dev/Programación científica/Laboratorio 1/Base de conocimiento/"
+    ```
+
+2.  `categorias`: Debe ser una lista con los nombres **exactos** de las carpetas de tus categorías.
+
+    ```python
+    categorias = ["Ciencia", "Cultura", "Deportes", "Tecnología"]
+    ```
+
+3.  `k_vecinos`: El número de vecinos (K) que deseas usar para la votación.
+
+    ```python
+    k_vecinos = 3
+    ```
+
+-----
+
+## Cómo Ejecutar
+
+1.  Asegúrate de que tu **Base de conocimiento** esté poblada con al menos 4 categorías y 6 documentos por categoría.
+
+2.  Asegúrate de que tu archivo `Consultas` contenga al menos 4 textos de prueba, uno por cada línea.
+
+3.  Verifica que las variables de **Configuración** en el script sean correctas.
+
+4.  Abre una terminal (o su editor de confianza), navega a la carpeta de tu proyecto y ejecuta el script:
+
+    ```bash
+    python3 "Laboratorio 1.py"
+    ```
+
+### Salida de Ejemplo
+
+La salida mostrará el proceso de carga y, finalmente, la clasificación de cada *query* junto con una justificación de los votos:
+
+```
+...
+¡Modelo TF-IDF listo!
+
+--- INICIO DE PRUEBAS DE CLASIFICACIÓN ---
+Cargando queries desde: /Users/davidjaque/Dev/Programación científica/Laboratorio 1/Consultas
+Se cargaron 4 queries.
+
+--- Query 1: 'El telescopio James Webb estudia exoplanetas.' ---
+  Predicción: Ciencia
+  Justificación (Votación de 3 vecinos):
+    - Vecino 'Ciencia' (Similitud: 0.6547)
+    - Vecino 'Ciencia' (Similitud: 0.0000)
+    - Vecino 'Ciencia' (Similitud: 0.0000)
+  Votos finales: {'Ciencia': 3}
+
+--- Query 2: 'Lionel Messi es un atleta de fútbol.' ---
+  Predicción: Deportes
+  Justificación (Votación de 3 vecinos):
+    - Vecino 'Deportes' (Similitud: 0.4082)
+    - Vecino 'Deportes' (Similitud: 0.2663)
+    - Vecino 'Ciencia' (Similitud: 0.0000)
+  Votos finales: {'Deportes': 2, 'Ciencia': 1}
+
+...
+```
+
+-----
+
+## Autor
+
+  * David Jaque

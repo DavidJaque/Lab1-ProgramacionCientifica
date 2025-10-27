@@ -7,6 +7,7 @@ import os          # Para construir rutas de archivos (un poco mejor que sumar s
 # ¡IMPORTANTE! Pon aquí la ruta a tu carpeta "Base de conocimiento"
 ruta_base = "/Users/davidjaque/Dev/Programación científica/Laboratorio 1/Base de conocimiento/"
 
+# ¡IMPORTANTE! Ingrese aquí el nombre de sus categorías
 categorias = ["Ciencia", "Cultura", "Deportes", "Tecnología"]
 
 # El valor K para la votación (puedes cambiarlo)
